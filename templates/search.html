@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>Suche nach Mitläufern</h2>
+  <h3>Nach PLZ und/oder Stadt</h3>
+  {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+  <form action="{{ url_for('search_entry') }}" method=post>
+    <dl>
+      <dt>PLZ:
+      <dd><input type=text name=zip>
+      <dt>Stadt:
+      <dd><input type=text name=city>
+      <dd><input type=submit value=search>
+      <input type=hidden name=searchtype value=search>
+    </dl>
+  </form>
+  <hr />
+  <h3>Nach Entfernung</h3>
+  <form action="{{ url_for('search_entry') }}" method=post>
+    <dl>
+      <dt>PLZ:
+      <dd><input type=text name=zip>
+      <dt>Entfernung in Kilometern:
+      <dd><select name=distance size="5">
+	      <option>5</option>
+	      <option>10</option>
+	      <option>15</option>
+	      <option>20</option>
+	      <option>30</option>
+	      <option>40</option>
+	      <option>50</option>
+      </select>
+      <dd><input type=submit value=search>
+      <input type=hidden name=searchtype value=geodb>
+    </dl>
+  </form>
+{% endblock %}
