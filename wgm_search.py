@@ -4,6 +4,7 @@ import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, \
         abort, render_template, flash
 import pygeodb
+from wtforms import Form, BooleanField, TextField, SelectField, validators
 
 # configuration
 DATABASE = 'wgm.db'
@@ -51,6 +52,16 @@ def show_entries():
 
     entries = query_db('select name, zip, city from entries order by id desc')
     return render_template('show_entries.html', entries=entries)
+
+class SearchForm(Form):
+    zip     = TextField(u'Postleitzahl', [validators.Length(min=3, max=5)])
+
+class CitySearchForm(SearchForm):
+    city        = TextField(u'Stadt', [validators.Length(min=2, max=255)])
+
+class DistanceSearchForm(SearchForm):
+    distance    = SelectField(u'Entfernung', [("5km", 5), ("10km", 10), ("15km", 15), ("20km", 20), ("30km", 30), ("40km", 40), ("50km", 50)])
+
 
 @app.route('/', methods=['GET', 'POST'])
 def search_entry():
