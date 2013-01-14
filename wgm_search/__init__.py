@@ -6,16 +6,13 @@ from flask import Flask, request, session, g, redirect, url_for, \
 import pygeodb
 from wtforms import Form, BooleanField, TextField, SelectField, SubmitField, validators, ValidationError
 
-# configuration
-DATABASE = 'wgm.db'
-DEBUG = True
-SECRET_KEY = 'foobar'
-USERNAME = 'admin'
-PASSWORD = 'default'
-
 # create our little application :)
 app = Flask(__name__)
-app.config.from_object(__name__)
+
+# Load default config from config file and optionally from a file
+# pointed to bei WGMSEARCH_SETTING in the environment
+app.config.from_object('wgm_search.config')
+app.config.from_envvar('WGMSEARCH_SETTING',silent=True)
 
 def connect_db():
     return sqlite3.connect(app.config['DATABASE'])
