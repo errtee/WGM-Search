@@ -2,7 +2,7 @@
 {% block body %}
 <h2>Suche nach Mitläufern</h2>
 <h3>Nach Entfernung</h3>
-<form action="{{ url_for('search_entry') }}" method=post>
+<form action="{{ url_for('distance_search_entry') }}" method=post>
 	<dl>
 		<dt>{{ form.zip.label }}:
 		<dd>{{ form.zip() }}

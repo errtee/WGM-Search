@@ -69,15 +69,20 @@ distance_values = [distance[0] for distance in distance_choices]
 class SearchForm(Form):
     zip     = TextField(u'Postleitzahl', [validators.Length(min=5, max=5, message=u'Postleitzahlen muessen 5 Ziffern enthalten'),
         zip_exists(u'Postleitzahl existiert nicht! Bitte geben Sie eine existierende PLZ ein.')])
-    distance    = SelectField(u'Entfernung', coerce=int, choices=distance_choices, validators=[validators.AnyOf(values=distance_values, message=u'Please select one of the given options')])
     submit  = SubmitField(u'Search')
 
+class CitySearchForm(SearchForm):
+    zip     = TextField(u'Postleitzahl', [validators.Length(min=3, max=5, message=u'Postleitzahlen muessen %(min) Ziffern enthalten, maximal %(max)')])
+    city    = TextField(u'Stadt', [validators.Length(min=2, max=255, message=u'Der St&auml;dtenamen muss mindestens %(min) Zeichen lang sein')])
+
+class DistanceSearchForm(SearchForm):
+    distance    = SelectField(u'Entfernung', coerce=int, choices=distance_choices, validators=[validators.AnyOf(values=distance_values, message=u'Please select one of the given options')])
 
 @app.route('/', methods=['GET', 'POST'])
-def search_entry():
-    "Search entries, either via ZIP/City or ZIP/distance (geodb), form template is template/search.html, rendering is done by show_entries.html"
+def distance_search_entry():
+    "Search entries, via ZIP/distance (geodb), form template is template/search.html, rendering is done by show_entries.html"
 
-    form = SearchForm(request.form)
+    form = DistanceSearchForm(request.form)
     if request.method == 'POST' and form.validate():
         search_zip = str(form.zip.data)
         search_distance = int(form.distance.data) *1000
@@ -109,7 +114,21 @@ def search_entry():
             entry['distance'] = zip_distance[str(entry['zip'])]
         return render_template('show_entries.html', entries=entries)
 
-    return render_template('search.html', form=form)
+    return render_template('distancesearch.html', form=form)
+
+@app.route('/citysearch', methods=['GET', 'POST'])
+def city_search_entry():
+    "Search entries, via ZIP/City, form template is template/search.html, rendering is done by show_entries.html"
+
+    form = CitySearchForm(request.form)
+    if request.method == 'POST' and form.validate():
+        search_zip = str(form.zip.data)
+        search_city = str(form.city.data)
+
+        entries = query_db('select name,zip,city from entries where zip like ? and city like ?', [search_zip + '%', search_city + '%'])
+        return render_template('show_entries.html', entries=entries)
+
+    return render_template('citysearch.html', form=form)
 
 
 if __name__ == '__main__':

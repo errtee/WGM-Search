@@ -7,7 +7,8 @@
 		{% block body %}{% endblock %}
 	</div>
 	<div id=sidebar>
-		<a href="{{ url_for('search_entry') }}">Distanzsuche</a><br />
-		<a href="{{ url_for('show_entries') }}">Mitläuferliste</a>
+		<a href="{{ url_for('distance_search_entry') }}">Distanzsuche</a><br />
+		<a href="{{ url_for('city_search_entry') }}">Stadtsuche</a><br />
+		<a href="{{ url_for('show_entries') }}">Mitläuferliste</a><br />
 	</div>
 </div>
