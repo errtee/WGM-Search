@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+"Simple web frontend that allows searching an exported CiviCRM database for wirgehenmit.org"
+
 from contextlib import closing
 import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, \
