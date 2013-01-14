@@ -1,3 +1,5 @@
+"Flask views for wgm_search"
+
 from wgm_search import app
 from wgm_search.database import connect_db, init_db, query_db
 from flask import Flask, request, session, g, redirect, url_for, \
