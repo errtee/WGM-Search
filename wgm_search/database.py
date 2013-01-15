@@ -1,6 +1,7 @@
 "Database routines for wgm_search"
 
 import sqlite3
+from contextlib import closing
 from wgm_search import app, g
 
 def connect_db():

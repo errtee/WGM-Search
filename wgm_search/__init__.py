@@ -2,7 +2,6 @@
 "Simple web frontend that allows searching an exported CiviCRM database for wirgehenmit.org"
 
 import os
-from contextlib import closing
 import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, \
         abort, render_template, flash
