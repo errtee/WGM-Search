@@ -1,0 +1,2 @@
+recursive-include wgm_search/templates *
+recursive-include wgm_search/static *
