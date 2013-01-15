@@ -13,8 +13,7 @@ class WGMSearchTestCase(unittest.TestCase):
         wgm_search.database.init_db()
 
     def tearDown(self):
-        #wgm_search.g.close()
-        os.unlink(wgm_search.app.config['DATABASE'])
+        os.unlink(wgm_search.app.config['DATABASE'].split('/')[-1])
 
     def test_empty_db(self):
         rv = self.app.get('/list')

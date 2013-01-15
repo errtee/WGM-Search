@@ -3,7 +3,7 @@
 class Config(object):
     "Default Config environment, parent to all other Config environments"
 
-    DATABASE = 'wgm.db'
+    DATABASE = 'sqlite:///wgm.db'
     DEBUG = False
     TESTING = False
 
@@ -16,7 +16,7 @@ class TestingConfig(Config):
     "Testing environment config"
 
     TESTING = True
-    DATABASE = 'wgm_test.db'
+    DATABASE = 'sqlite:///wgm_test.db'
 
 class ProductionConfig(Config):
     "Production environment config"

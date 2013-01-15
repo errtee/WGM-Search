@@ -1,26 +1,16 @@
 "Database routines for wgm_search"
 
-import sqlite3
-from contextlib import closing
-from wgm_search import app, g
+from sqlalchemy import create_engine, MetaData
+from sqlalchemy.orm import scoped_session, sessionmaker
+from wgm_search import app
 
-def connect_db():
-    "Connect to database specified in config"
-
-    return sqlite3.connect(app.config['DATABASE'])
+engine = create_engine(app.config['DATABASE'], convert_unicode=True)
+metadata = MetaData()
+db_session = scoped_session(sessionmaker(autocommit=False,
+    autoflush=False,
+    bind=engine))
 
 def init_db():
     "Initializes databse with scheme.sql"
-    
-    with closing(connect_db()) as db:
-        with app.open_resource('schema.sql') as file:
-            db.cursor().executescript(file.read())
-        db.commit()
-
-def query_db(query, args=(), one=False):
-    "Do database query and convert the result into a dict"
-
-    cur = g.db.execute(query, args)
-    rv = [dict((cur.description[idx][0], value)
-        for idx, value in enumerate(row)) for row in cur.fetchall()]
-    return (rv[0] if rv else None) if one else rv
+    import wgm_search.models
+    metadata.create_all(bind=engine)
