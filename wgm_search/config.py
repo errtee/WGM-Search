@@ -16,6 +16,7 @@ class TestingConfig(Config):
     "Testing environment config"
 
     TESTING = True
+    DATABASE = 'wgm_test.db'
 
 class ProductionConfig(Config):
     "Production environment config"
