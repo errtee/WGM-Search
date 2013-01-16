@@ -16,6 +16,10 @@ setup(
             'Flask>=0.9',
             'Flask-WTF>=0.8.2',
             'pyGeoDb>=1.2',
+            'Flask-SQLAlchemy>=0.16',
+            'SQLAlchemy>=0.8.0b2',
+            'WTForms>=1.0.2',
+            'flup>=1.0.3.dev-20110405',
         ]
 )
 
