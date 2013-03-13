@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-  <ul id=entries>
+  <ul id="entries">
   {% for entry in entries %}
   <li><h2>{{ entry.name }}</h2>{{ entry.zip|safe }}&nbsp;{{ entry.city|safe }}
   {% if entry.distance is defined %}&nbsp;({{ entry.distance/1000.0}}km) {% endif %}
